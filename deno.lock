@@ -1,16 +1,16 @@
 {
   "version": "4",
   "specifiers": {
-    "npm:@tailwindcss/vite@^4.0.7": "4.0.7_vite@6.1.1_lightningcss@1.29.1",
+    "npm:@tailwindcss/vite@^4.0.7": "4.0.7_vite@6.1.1__lightningcss@1.29.1_lightningcss@1.29.1",
     "npm:@tauri-apps/api@2": "2.2.0",
     "npm:@tauri-apps/cli@2": "2.2.7",
     "npm:@tauri-apps/plugin-opener@2": "2.2.5",
-    "npm:@vitejs/plugin-vue@^5.2.1": "5.2.1_vite@6.1.1_vue@3.5.13__typescript@5.6.3_typescript@5.6.3",
+    "npm:@vitejs/plugin-vue@^5.2.1": "5.2.1_vite@6.1.1__lightningcss@1.29.1_vue@3.5.13__typescript@5.7.3_typescript@5.7.3",
     "npm:tailwindcss@^4.0.7": "4.0.7",
-    "npm:typescript@~5.6.2": "5.6.3",
-    "npm:vite@^6.0.3": "6.1.1",
-    "npm:vue-tsc@^2.1.10": "2.2.2_typescript@5.6.3",
-    "npm:vue@^3.5.13": "3.5.13_typescript@5.6.3"
+    "npm:typescript@5.7.3": "5.7.3",
+    "npm:vite@^6.0.3": "6.1.1_lightningcss@1.29.1",
+    "npm:vue-tsc@^2.1.10": "2.2.2_typescript@5.7.3",
+    "npm:vue@^3.5.13": "3.5.13_typescript@5.7.3"
   },
   "npm": {
     "@babel/helper-string-parser@7.25.9": {
@@ -224,7 +224,7 @@
         "@tailwindcss/oxide-win32-x64-msvc"
       ]
     },
-    "@tailwindcss/vite@4.0.7_vite@6.1.1_lightningcss@1.29.1": {
+    "@tailwindcss/vite@4.0.7_vite@6.1.1__lightningcss@1.29.1_lightningcss@1.29.1": {
       "integrity": "sha512-GYx5sxArfIMtdZCsxfya3S/efMmf4RvfqdiLUozkhmSFBNUFnYVodatpoO/en4/BsOIGvq/RB6HwcTLn9prFnQ==",
       "dependencies": [
         "@tailwindcss/node",
@@ -291,7 +291,7 @@
     "@types/estree@1.0.6": {
       "integrity": "sha512-AYnb1nQyY49te+VRAVgmzfcgjYS91mY5P0TKUDCLEM+gNnA+3T6rWITXRLYCpahpqSQbN5cE+gHpnPyXjHWxcw=="
     },
-    "@vitejs/plugin-vue@5.2.1_vite@6.1.1_vue@3.5.13__typescript@5.6.3_typescript@5.6.3": {
+    "@vitejs/plugin-vue@5.2.1_vite@6.1.1__lightningcss@1.29.1_vue@3.5.13__typescript@5.7.3_typescript@5.7.3": {
       "integrity": "sha512-cxh314tzaWwOLqVes2gnnCtvBDcM1UMdn+iFR+UjAn411dPT3tOmqrJjbMd7koZpMAmBM/GqeV4n9ge7JSiJJQ==",
       "dependencies": [
         "vite@6.1.1",
@@ -360,7 +360,7 @@
         "he"
       ]
     },
-    "@vue/language-core@2.2.2_typescript@5.6.3": {
+    "@vue/language-core@2.2.2_typescript@5.7.3": {
       "integrity": "sha512-QotO41kurE5PLf3vrNgGTk3QswO2PdUFjBwNiOi7zMmGhwb25PSTh9hD1MCgKC06AVv+8sZQvlL3Do4TTVHSiQ==",
       "dependencies": [
         "@volar/language-core",
@@ -396,7 +396,7 @@
         "csstype"
       ]
     },
-    "@vue/server-renderer@3.5.13_vue@3.5.13__typescript@5.6.3": {
+    "@vue/server-renderer@3.5.13_vue@3.5.13__typescript@5.7.3": {
       "integrity": "sha512-wAi4IRJV/2SAW3htkTlB+dHeRmpTiVIK1OGLWV1yeStVSebSQQOwGwIq0D3ZIoBj2C2qpgz5+vX9iEBkTdk5YA==",
       "dependencies": [
         "@vue/compiler-ssr",
@@ -596,8 +596,8 @@
     "tapable@2.2.1": {
       "integrity": "sha512-GNzQvQTOIP6RyTfE2Qxb8ZVlNmw0n88vp1szwWRimP02mnTsx3Wtn5qRdqY9w2XduFNUgvOwhNnQsjwCp+kqaQ=="
     },
-    "typescript@5.6.3": {
-      "integrity": "sha512-hjcS1mhfuyi4WW8IWtjP7brDrG2cuDZukyrYrSauoXGNgx0S7zceP07adYkJycEr56BOUTNPzbInooiN3fn1qw=="
+    "typescript@5.7.3": {
+      "integrity": "sha512-84MVSjMEHP+FQRPy3pX9sTVV/INIex71s9TL2Gm5FG/WG1SqXeKyZ0k7/blY/4FdOzI12CBy1vGc4og/eus0fw=="
     },
     "vite@6.1.1": {
       "integrity": "sha512-4GgM54XrwRfrOp297aIYspIti66k56v16ZnqHvrIM7mG+HjDlAwS7p+Srr7J6fGvEdOJ5JcQ/D9T7HhtdXDTzA==",
@@ -621,7 +621,7 @@
     "vscode-uri@3.1.0": {
       "integrity": "sha512-/BpdSx+yCQGnCvecbyXdxHDkuk55/G3xwnC0GqY4gmQ3j+A+g8kzzgB4Nk/SINjqn6+waqw3EgbVF2QKExkRxQ=="
     },
-    "vue-tsc@2.2.2_typescript@5.6.3": {
+    "vue-tsc@2.2.2_typescript@5.7.3": {
       "integrity": "sha512-1icPKkxAA5KTAaSwg0wVWdE48EdsH8fgvcbAiqojP4jXKl6LEM3soiW1aG/zrWrFt8Mw1ncG2vG1PvpZpVfehA==",
       "dependencies": [
         "@volar/typescript",
@@ -629,7 +629,7 @@
         "typescript"
       ]
     },
-    "vue@3.5.13_typescript@5.6.3": {
+    "vue@3.5.13_typescript@5.7.3": {
       "integrity": "sha512-wmeiSMxkZCSc+PM2w2VRsOYAZC8GdipNFRTsLSfodVqI9mbejKeXEGr8SckuLnrQPGe3oJN5c3K0vpoU9q/wCQ==",
       "dependencies": [
         "@vue/compiler-dom",
@@ -650,7 +650,7 @@
         "npm:@tauri-apps/plugin-opener@2",
         "npm:@vitejs/plugin-vue@^5.2.1",
         "npm:tailwindcss@^4.0.7",
-        "npm:typescript@~5.6.2",
+        "npm:typescript@5.7.3",
         "npm:vite@^6.0.3",
         "npm:vue-tsc@^2.1.10",
         "npm:vue@^3.5.13"
