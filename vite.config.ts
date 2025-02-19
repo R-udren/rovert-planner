@@ -12,7 +12,10 @@ export default defineConfig({
   plugins: [
     vue(),
     tailwindcss(),
-    Components({}),
+    Components({
+      dts: true,
+      dirs: ["./src/components"],
+    }),
     AutoImport({
       include: [/\.vue$/, /\.vue\?vue/],
       imports: [
