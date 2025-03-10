@@ -44,9 +44,12 @@ async function fetchModels() {
     const data = await response.json();
     availableModels.value = data.models.map((model: OllamaModel) => model.name);
 
-    // If no model is currently selected, select the first one
+    // If no model is currently selected, select the smallest one
     if (!props.currentModel && availableModels.value.length > 0) {
-      emit("modelChange", availableModels.value[0]);
+      const smallestModel = data.models.reduce((prev: { size: number; }, curr: { size: number; }) => {
+      return prev.size < curr.size ? prev : curr;
+      });
+      emit("modelChange", smallestModel.name);
     }
   } catch (err) {
     error.value =
