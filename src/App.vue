@@ -9,9 +9,7 @@ interface ChatMsg {
   sender: "user" | "bot";
 }
 
-const messages = ref<ChatMsg[]>([
-  // { message: "Hello! How can I help you today?", sender: "bot" },
-]);
+const messages = ref<ChatMsg[]>([]);
 
 const isLoading = ref(false);
 
