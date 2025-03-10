@@ -1,4 +1,7 @@
 <script lang="ts" setup>
+import { nextTick, onMounted, ref, watch } from "vue";
+import ChatMessage from "./ChatMessage.vue";
+
 interface ChatMsg {
   message: string;
   sender: "user" | "assistant";
@@ -11,34 +14,26 @@ const props = defineProps<{
 
 const chatContainer = ref<HTMLElement | null>(null);
 const messagesEnd = ref<HTMLElement | null>(null);
-const lastScrollHeight = ref(0);
-const shouldAutoScroll = ref(true); // Default to true
+const shouldAutoScroll = ref(true);
 
+// Simple scroll handler that just checks if user is at bottom
 function handleScroll() {
   if (!chatContainer.value) return;
 
   const { scrollTop, scrollHeight, clientHeight } = chatContainer.value;
   const atBottom = Math.abs(scrollHeight - scrollTop - clientHeight) < 50;
 
-  // Update auto-scroll flag based on user behavior
-  if (!atBottom && scrollHeight > lastScrollHeight.value) {
-    // User has scrolled up while content is growing - disable auto-scroll
-    shouldAutoScroll.value = false;
-  } else if (atBottom) {
-    // User is at bottom - re-enable auto-scroll
-    shouldAutoScroll.value = true;
-  }
-
-  // Save current scroll height
-  lastScrollHeight.value = scrollHeight;
+  // Update auto-scroll flag based on position
+  shouldAutoScroll.value = atBottom;
 }
 
+// Scroll to bottom function
 async function scrollToBottom() {
   await nextTick();
   messagesEnd.value?.scrollIntoView({ behavior: "smooth" });
 }
 
-// Manually scroll to bottom (for button)
+// Manual scroll button handler
 function forceScrollToBottom() {
   shouldAutoScroll.value = true;
   scrollToBottom();
@@ -49,11 +44,10 @@ onMounted(async () => {
   await scrollToBottom();
 });
 
-// Only watch for NEW messages (not content changes)
+// Watch only for new messages
 watch(
   () => props.messages.length,
   async () => {
-    // Only scroll on new messages if auto-scroll is enabled
     if (shouldAutoScroll.value) {
       await scrollToBottom();
     }
@@ -88,7 +82,7 @@ watch(
       </div>
     </div>
 
-    <!-- Scroll to bottom button (appears when not auto-scrolling) -->
+    <!-- Scroll to bottom button -->
     <button
       v-if="!shouldAutoScroll && messages.length > 0"
       @click="forceScrollToBottom"
@@ -102,9 +96,7 @@ watch(
         fill="currentColor"
       >
         <path
-          fill-rule="evenodd"
-          d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"
-          clip-rule="evenodd"
+          d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
         />
       </svg>
     </button>
