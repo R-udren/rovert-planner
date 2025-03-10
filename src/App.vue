@@ -1,9 +1,4 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import ChatInput from "./components/ChatInput.vue";
-import ChatWindow from "./components/ChatWindow.vue";
-import Header from "./components/Header.vue";
-
 interface ChatMsg {
   message: string;
   sender: "user" | "bot";
@@ -38,7 +33,7 @@ async function handleSendMessage(msg: string) {
 </script>
 
 <template>
-  <main class="min-h-screen flex flex-col text-white bg-zinc-900">
+  <main class="min-h-screen flex flex-col text-white">
     <Header />
     <div class="pt-16 pb-20">
       <ChatWindow :messages="messages" />
