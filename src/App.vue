@@ -36,7 +36,7 @@ async function handleSendMessage(msg: string) {
       },
       body: JSON.stringify({
         model: currentModel.value,
-        messages: [...messageHistory, { role: "user", content: msg }],
+        messages: [...messageHistory],
         stream: true,
       }),
     });
