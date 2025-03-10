@@ -22,7 +22,9 @@ async function handleSendMessage(msg: string) {
       content: m.message,
     }));
 
-    const response = await fetch("http://localhost:11434/api/chat", {
+    const apiUrl =
+      import.meta.env.VITE_OLLAMA_API_URL || "http://localhost:11434";
+    const response = await fetch(`${apiUrl}/api/chat`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

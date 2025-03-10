@@ -33,7 +33,9 @@ async function fetchModels() {
     isLoading.value = true;
     error.value = null;
 
-    const response = await fetch("http://localhost:11434/api/tags");
+    const apiUrl =
+      import.meta.env.VITE_OLLAMA_API_URL || "http://localhost:11434";
+    const response = await fetch(`${apiUrl}/api/tags`);
 
     if (!response.ok) {
       throw new Error(`Error: ${response.status} ${response.statusText}`);
