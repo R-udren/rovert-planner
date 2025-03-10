@@ -69,7 +69,7 @@ onMounted(fetchModels);
 
 <template>
   <header
-    class="fixed top-0 left-0 right-0 z-10 bg-zinc-900 shadow-md border-b border-zinc-800"
+    class="fixed top-0 left-0 right-0 z-10 bg-zinc-900/80 backdrop backdrop-blur-xl shadow-md"
   >
     <div class="max-w-6xl mx-auto flex items-center justify-between p-4">
       <h1
@@ -113,7 +113,7 @@ onMounted(fetchModels);
         <!-- Dropdown menu -->
         <div
           v-if="isDropdownOpen && !isLoading"
-          class="absolute right-0 mt-2 w-60 bg-zinc-800 border border-zinc-700 rounded-lg shadow-lg py-1 z-20"
+          class="absolute right-0 mt-2 w-60 bg-zinc-800/70 border border-zinc-700 rounded-lg shadow-lg py-1 z-20 backdrop-filter backdrop-blur-md"
         >
           <div v-if="error" class="px-4 py-2 text-red-400">{{ error }}</div>
           <div
@@ -126,7 +126,7 @@ onMounted(fetchModels);
             v-for="model in availableModels"
             :key="model"
             @click="selectModel(model)"
-            class="block w-full text-left px-4 py-2 hover:bg-zinc-700 text-white transition-colors"
+            class="block w-full text-left px-4 py-2 hover:bg-zinc-700 text-white transition-colors rounded-lg"
             :class="{ 'bg-blue-600 hover:bg-blue-700': model === currentModel }"
           >
             {{ model }}
