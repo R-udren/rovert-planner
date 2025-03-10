@@ -6,7 +6,7 @@ interface ChatMsg {
 
 const messages = ref<ChatMsg[]>([]);
 const isLoading = ref(false);
-const currentModel = ref("huihui_ai/qwq-abliterated");
+const currentModel = ref("");
 
 async function handleSendMessage(msg: string) {
   // Add user message to chat
@@ -87,7 +87,10 @@ async function handleSendMessage(msg: string) {
 
 <template>
   <main class="min-h-screen flex flex-col text-white bg-zinc-900">
-    <Header />
+    <Header
+      @model-change="(model) => (currentModel = model)"
+      :current-model="currentModel"
+    />
     <div class="flex-1 pt-16 pb-20">
       <ChatWindow :messages="messages" />
     </div>
