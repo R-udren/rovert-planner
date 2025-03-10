@@ -15,13 +15,10 @@ const chatContainer = ref<HTMLElement | null>(null);
 const messagesEnd = ref<HTMLElement | null>(null);
 
 async function scrollToBottom() {
-  // Wait for Vue to update the DOM
   await nextTick();
 
-  // Use the messagesEnd element for scrolling
   messagesEnd.value?.scrollIntoView({ behavior: "smooth" });
 
-  // Alternative direct scroll approach if the above doesn't work consistently
   if (chatContainer.value) {
     chatContainer.value.scrollTop = chatContainer.value.scrollHeight;
   }
