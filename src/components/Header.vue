@@ -112,58 +112,63 @@ onMounted(fetchModels);
           </svg>
         </button>
 
-        <!-- Model selector dropdown button -->
-        <button
-          @click="toggleDropdown"
-          class="flex items-center space-x-2 px-3 py-2 bg-zinc-800 hover:bg-zinc-700 rounded-lg border border-zinc-700 text-white transition-colors"
-          :disabled="isLoading"
-        >
-          <span v-if="isLoading" class="text-sm md:text-base"
-            >Loading models...</span
-          >
-          <span v-else-if="error" class="text-sm md:text-base text-red-400"
-            >Error loading models</span
-          >
-          <span v-else class="text-sm md:text-base">{{
-            currentModel || "Select model"
-          }}</span>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-4 w-4"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M19 9l-7 7-7-7"
-            />
-          </svg>
-        </button>
-
-        <!-- Dropdown menu -->
-        <div
-          v-if="isDropdownOpen && !isLoading"
-          class="absolute right-0 mt-2 w-60 bg-zinc-800/70 border border-zinc-700 rounded-lg shadow-lg py-1 z-20 backdrop-filter backdrop-blur-md"
-        >
-          <div v-if="error" class="px-4 py-2 text-red-400">{{ error }}</div>
-          <div
-            v-else-if="availableModels.length === 0"
-            class="px-4 py-2 text-zinc-400"
-          >
-            No models found
-          </div>
+        <!-- Model selector dropdown container with relative positioning -->
+        <div class="relative">
+          <!-- Model selector dropdown button -->
           <button
-            v-for="model in availableModels"
-            :key="model"
-            @click="selectModel(model)"
-            class="block w-full text-left px-4 py-2 hover:bg-zinc-700 text-white transition-colors rounded-lg"
-            :class="{ 'bg-blue-600 hover:bg-blue-700': model === currentModel }"
+            @click="toggleDropdown"
+            class="flex items-center space-x-2 px-3 py-2 bg-zinc-800 hover:bg-zinc-700 rounded-lg border border-zinc-700 text-white transition-colors"
+            :disabled="isLoading"
           >
-            {{ model }}
+            <span v-if="isLoading" class="text-sm md:text-base"
+              >Loading models...</span
+            >
+            <span v-else-if="error" class="text-sm md:text-base text-red-400"
+              >Error loading models</span
+            >
+            <span v-else class="text-sm md:text-base">{{
+              currentModel || "Select model"
+            }}</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 9l-7 7-7-7"
+              />
+            </svg>
           </button>
+
+          <!-- Dropdown menu positioned relative to its container -->
+          <div
+            v-if="isDropdownOpen && !isLoading"
+            class="absolute top-full right-0 mt-2 w-60 bg-zinc-800/70 border border-zinc-700 rounded-lg shadow-lg py-1 z-20 backdrop-filter backdrop-blur-md"
+          >
+            <div v-if="error" class="px-4 py-2 text-red-400">{{ error }}</div>
+            <div
+              v-else-if="availableModels.length === 0"
+              class="px-4 py-2 text-zinc-400"
+            >
+              No models found
+            </div>
+            <button
+              v-for="model in availableModels"
+              :key="model"
+              @click="selectModel(model)"
+              class="block w-full text-left px-4 py-2 hover:bg-zinc-700 text-white transition-colors"
+              :class="{
+                'bg-blue-600 hover:bg-blue-700': model === currentModel,
+              }"
+            >
+              {{ model }}
+            </button>
+          </div>
         </div>
       </div>
     </div>
