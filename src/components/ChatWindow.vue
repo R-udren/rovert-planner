@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import { nextTick, onMounted, ref, watch } from "vue";
 import ChatMessage from "./ChatMessage.vue";
 
 interface ChatMsg {
   message: string;
   sender: "user" | "assistant";
+  thinking?: string;
 }
 
 const props = defineProps<{
@@ -47,11 +47,12 @@ watch(
             :key="index"
             :message="msg.message"
             :sender="msg.sender"
+            :thinking="msg.thinking"
           />
         </div>
         <div
           v-if="messages.length === 0"
-          class="text-center text-gray-400 text-2xl mt-8"
+          class="text-center text-zinc-400 text-2xl mt-8"
         >
           No messages yet.
         </div>

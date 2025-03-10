@@ -2,6 +2,7 @@
 interface ChatMsg {
   message: string;
   sender: "user" | "assistant";
+  thinking?: string;
 }
 
 const messages = ref<ChatMsg[]>([]);
@@ -12,7 +13,11 @@ async function handleSendMessage(msg: string) {
   messages.value.push({ message: msg, sender: "user" });
 
   const botMessageIndex = messages.value.length;
-  messages.value.push({ message: "", sender: "assistant" });
+  messages.value.push({
+    message: "",
+    sender: "assistant",
+    thinking: "",
+  });
 
   isLoading.value = true;
 
@@ -46,13 +51,13 @@ async function handleSendMessage(msg: string) {
     }
 
     let streamedResponse = "";
+    let thinkingContent = "";
+    let inThinkingBlock = false;
 
     while (true) {
       const { done, value } = await reader.read();
 
-      if (done) {
-        break;
-      }
+      if (done) break;
 
       const chunk = new TextDecoder().decode(value);
 
@@ -62,8 +67,31 @@ async function handleSendMessage(msg: string) {
         for (const line of lines) {
           const data = JSON.parse(line);
           if (data.message?.content) {
-            streamedResponse += data.message.content;
-            messages.value[botMessageIndex].message = streamedResponse;
+            const content = data.message.content;
+
+            // Check for <think> tags in the content
+            if (content.includes("<think>")) {
+              inThinkingBlock = true;
+              const thinkParts = content.split("<think>");
+              streamedResponse += thinkParts[0];
+              thinkingContent += thinkParts[1];
+            } else if (content.includes("</think>")) {
+              inThinkingBlock = false;
+              const endThinkParts = content.split("</think>");
+              thinkingContent += endThinkParts[0];
+              streamedResponse += endThinkParts[1] || "";
+            } else if (inThinkingBlock) {
+              thinkingContent += content;
+            } else {
+              streamedResponse += content;
+            }
+
+            // Update the message in real-time
+            messages.value[botMessageIndex] = {
+              message: streamedResponse,
+              thinking: thinkingContent,
+              sender: "assistant",
+            };
           }
         }
       } catch (e) {
