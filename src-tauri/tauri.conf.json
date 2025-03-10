@@ -1,8 +1,8 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "rovert-planner",
+  "productName": "rovert-chat",
   "version": "0.1.0",
-  "identifier": "com.rovert-planner.app",
+  "identifier": "com.rovert-chat.app",
   "build": {
     "beforeDevCommand": "deno task dev",
     "devUrl": "http://localhost:1420",

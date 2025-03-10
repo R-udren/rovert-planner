@@ -49,6 +49,12 @@ watch(
             :sender="msg.sender"
           />
         </div>
+        <div
+          v-if="messages.length === 0"
+          class="text-center text-gray-400 text-2xl mt-8"
+        >
+          No messages yet.
+        </div>
         <div ref="messagesEnd" class="h-4"></div>
       </div>
     </div>

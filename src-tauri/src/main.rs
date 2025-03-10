@@ -2,5 +2,5 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 fn main() {
-    rovert_planner_lib::run()
+    rovert_chat_lib::run()
 }

@@ -10,7 +10,7 @@ interface ChatMsg {
 }
 
 const messages = ref<ChatMsg[]>([
-  { message: "Hello! How can I help you today?", sender: "bot" },
+  // { message: "Hello! How can I help you today?", sender: "bot" },
 ]);
 
 const isLoading = ref(false);
