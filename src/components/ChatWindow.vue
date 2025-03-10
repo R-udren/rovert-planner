@@ -1,4 +1,7 @@
 <script lang="ts" setup>
+import { nextTick, onMounted, ref, watch } from "vue";
+import ChatMessage from "./ChatMessage.vue";
+
 interface ChatMsg {
   message: string;
   sender: "user" | "bot";
@@ -8,24 +11,38 @@ const props = defineProps<{
   messages: ChatMsg[];
 }>();
 
+const chatContainer = ref<HTMLElement | null>(null);
 const messagesEnd = ref<HTMLElement | null>(null);
 
-function scrollToBottom() {
+async function scrollToBottom() {
+  // Wait for Vue to update the DOM
+  await nextTick();
+
+  // Use the messagesEnd element for scrolling
   messagesEnd.value?.scrollIntoView({ behavior: "smooth" });
+
+  // Alternative direct scroll approach if the above doesn't work consistently
+  if (chatContainer.value) {
+    chatContainer.value.scrollTop = chatContainer.value.scrollHeight;
+  }
 }
 
-onMounted(scrollToBottom);
+onMounted(async () => {
+  await scrollToBottom();
+});
 
 watch(
   () => props.messages,
-  () => scrollToBottom(),
+  async () => {
+    await scrollToBottom();
+  },
   { deep: true }
 );
 </script>
 
 <template>
   <div class="flex-1 flex flex-col overflow-hidden">
-    <div class="flex-1 overflow-y-auto p-4">
+    <div ref="chatContainer" class="flex-1 overflow-y-auto p-4">
       <div class="max-w-3xl mx-auto w-full">
         <div class="flex flex-col space-y-4">
           <ChatMessage
