@@ -21,6 +21,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (e: "modelChange", model: string): void;
+  (e: "clearMessages"): void;
 }>();
 
 const isDropdownOpen = ref(false);
@@ -46,9 +47,11 @@ async function fetchModels() {
 
     // If no model is currently selected, select the smallest one
     if (!props.currentModel && availableModels.value.length > 0) {
-      const smallestModel = data.models.reduce((prev: { size: number; }, curr: { size: number; }) => {
-      return prev.size < curr.size ? prev : curr;
-      });
+      const smallestModel = data.models.reduce(
+        (prev: { size: number }, curr: { size: number }) => {
+          return prev.size < curr.size ? prev : curr;
+        }
+      );
       emit("modelChange", smallestModel.name);
     }
   } catch (err) {
@@ -69,6 +72,10 @@ function toggleDropdown() {
   isDropdownOpen.value = !isDropdownOpen.value;
 }
 
+function clearAllMessages() {
+  emit("clearMessages");
+}
+
 onMounted(fetchModels);
 </script>
 
@@ -83,7 +90,28 @@ onMounted(fetchModels);
         rovert Chat
       </h1>
 
-      <div class="relative">
+      <div class="flex items-center space-x-3">
+        <!-- Clear Messages Button -->
+        <button
+          @click="clearAllMessages"
+          class="flex items-center px-3 py-2 bg-zinc-800 hover:bg-zinc-700 rounded-lg border border-zinc-700 text-white transition-colors"
+          title="Clear all messages"
+        >
+          Reset
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5 ml-2"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </button>
+
         <!-- Model selector dropdown button -->
         <button
           @click="toggleDropdown"

@@ -83,12 +83,17 @@ async function handleSendMessage(msg: string) {
     isLoading.value = false;
   }
 }
+
+function clearMessages() {
+  messages.value = [];
+}
 </script>
 
 <template>
   <main class="min-h-screen flex flex-col text-white bg-zinc-900">
     <Header
       @model-change="(model) => (currentModel = model)"
+      @clear-messages="clearMessages"
       :current-model="currentModel"
     />
     <div class="flex-1 pt-16 pb-20">
