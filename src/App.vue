@@ -1,7 +1,7 @@
 <script setup lang="ts">
 interface ChatMsg {
   message: string;
-  sender: "user" | "bot";
+  sender: "user" | "assistant";
 }
 
 const messages = ref<ChatMsg[]>([]);
@@ -9,25 +9,27 @@ const isLoading = ref(false);
 const currentModel = ref("");
 
 async function handleSendMessage(msg: string) {
-  // Add user message to chat
   messages.value.push({ message: msg, sender: "user" });
 
-  // Create an empty message for streaming the response
   const botMessageIndex = messages.value.length;
-  messages.value.push({ message: "", sender: "bot" });
+  messages.value.push({ message: "", sender: "assistant" });
 
   isLoading.value = true;
 
   try {
-    // Call Ollama API with streaming enabled
-    const response = await fetch("http://localhost:11434/api/generate", {
+    const messageHistory = messages.value.slice(0, -1).map((m) => ({
+      role: m.sender === "user" ? "user" : "assistant",
+      content: m.message,
+    }));
+
+    const response = await fetch("http://localhost:11434/api/chat", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         model: currentModel.value,
-        prompt: msg,
+        messages: [...messageHistory, { role: "user", content: msg }],
         stream: true,
       }),
     });
@@ -41,7 +43,6 @@ async function handleSendMessage(msg: string) {
       throw new Error("ReadableStream not supported");
     }
 
-    // Process the stream
     let streamedResponse = "";
 
     while (true) {
@@ -51,19 +52,17 @@ async function handleSendMessage(msg: string) {
         break;
       }
 
-      // Decode the stream chunk
       const chunk = new TextDecoder().decode(value);
 
       try {
-        // Each line is a separate JSON object
         const lines = chunk.split("\n").filter((line) => line.trim() !== "");
 
         for (const line of lines) {
           const data = JSON.parse(line);
-          streamedResponse += data.response;
-
-          // Update the current bot message with accumulated text
-          messages.value[botMessageIndex].message = streamedResponse;
+          if (data.message?.content) {
+            streamedResponse += data.message.content;
+            messages.value[botMessageIndex].message = streamedResponse;
+          }
         }
       } catch (e) {
         console.error("Error parsing stream chunk:", e);
@@ -72,12 +71,11 @@ async function handleSendMessage(msg: string) {
   } catch (error) {
     console.error("Error calling Ollama:", error);
 
-    // Replace the empty bot message with an error message
     messages.value[botMessageIndex] = {
       message: `Sorry, I encountered an error: ${
         error instanceof Error ? error.message : "Unknown error"
       }. Make sure Ollama is running locally.`,
-      sender: "bot",
+      sender: "assistant",
     };
   } finally {
     isLoading.value = false;

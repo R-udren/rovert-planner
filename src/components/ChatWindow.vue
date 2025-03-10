@@ -4,7 +4,7 @@ import ChatMessage from "./ChatMessage.vue";
 
 interface ChatMsg {
   message: string;
-  sender: "user" | "bot";
+  sender: "user" | "assistant";
 }
 
 const props = defineProps<{

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 interface Props {
   message: string;
-  sender: "user" | "bot";
+  sender: "user" | "assistant";
 }
 
 const props = defineProps<Props>();
