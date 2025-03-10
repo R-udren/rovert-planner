@@ -42,7 +42,7 @@ async function handleSendMessage(msg: string) {
 <template>
   <main class="min-h-screen flex flex-col text-white bg-zinc-900">
     <Header />
-    <div class="flex-1 pt-16 pb-20">
+    <div class="pt-16 pb-20">
       <ChatWindow :messages="messages" />
     </div>
     <ChatInput @send="handleSendMessage" :disabled="isLoading" />
