@@ -8,8 +8,12 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    ChatInput: typeof import('./src/components/ChatInput.vue')['default']
+    ChatMessage: typeof import('./src/components/ChatMessage.vue')['default']
     ChatWindow: typeof import('./src/components/ChatWindow.vue')['default']
     ChatWindows: typeof import('./src/components/ChatWindows.vue')['default']
+    copy: typeof import('./src/components/ChatWindow copy.vue')['default']
+    Header: typeof import('./src/components/Header.vue')['default']
     ProfileCard: typeof import('./src/components/ProfileCard.vue')['default']
   }
 }
