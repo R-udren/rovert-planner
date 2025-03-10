@@ -9,7 +9,7 @@ const props = defineProps<Props>();
 const senderClass = computed(() =>
   props.sender === "user"
     ? "self-end bg-zinc-800 text-white"
-    : "self-start text-white shadow-md"
+    : "self-start text-white"
 );
 </script>
 
