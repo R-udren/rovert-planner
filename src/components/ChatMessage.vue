@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { computed, ref } from "vue";
+
 interface Props {
   message: string;
   sender: "user" | "assistant";
@@ -15,7 +17,7 @@ const senderClass = computed(() =>
 );
 
 const hasThinking = computed(
-  () => !!props.thinking && props.thinking.length > 0
+  () => !!props.thinking && props.thinking.trim().length > 0
 );
 
 function toggleThinking() {
@@ -25,29 +27,28 @@ function toggleThinking() {
 
 <template>
   <div :class="['max-w-lg p-3 my-2 rounded-xl text-lg', senderClass]">
-    <!-- Regular message content -->
-    {{ message }}
-
-    <!-- Thinking toggle button (only for bot messages with thinking content) -->
-    <div v-if="hasThinking" class="mt-2">
+    <!-- Thinking indicator (only for assistant messages with thinking content) -->
+    <div v-if="hasThinking && sender === 'assistant'" class="mb-2">
       <button
         @click="toggleThinking"
-        class="text-xs bg-zinc-700 hover:bg-zinc-600 py-1 px-2 rounded-md text-zinc-300 flex items-center"
+        class="text-xs bg-zinc-600/50 hover:bg-zinc-600 py-0.5 px-2 rounded text-zinc-300 flex items-center"
       >
-        <span v-if="!showThinking">
-          <span class="inline-block animate-pulse mr-1">●</span>
-          View thinking
-        </span>
+        <span
+          class="inline-block animate-pulse mr-1 text-blue-400"
+          v-if="!showThinking"
+          >●</span
+        >
+        <span v-if="!showThinking">Thinking</span>
         <span v-else>Hide thinking</span>
       </button>
 
       <!-- Thinking content (collapsible) -->
-      <div
-        v-if="showThinking"
-        class="mt-2 p-3 bg-zinc-700/50 border border-zinc-600 rounded-md overflow-auto text-sm"
-      >
-        <pre class="whitespace-pre-wrap text-zinc-300">{{ thinking }}</pre>
+      <div v-if="showThinking" class="text-sm text-zinc-300 border-l-2 pl-2">
+        <pre class="whitespace-pre-wrap font-mono">{{ thinking }}</pre>
       </div>
     </div>
+
+    <!-- Regular message content -->
+    <div>{{ message }}</div>
   </div>
 </template>
