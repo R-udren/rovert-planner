@@ -7,6 +7,7 @@ interface ChatMsg {
 
 const messages = ref<ChatMsg[]>([]);
 const isLoading = ref(false);
+const isStream = ref(false);
 const currentModel = ref("");
 
 async function handleSendMessage(msg: string) {
@@ -37,12 +38,21 @@ async function handleSendMessage(msg: string) {
       body: JSON.stringify({
         model: currentModel.value,
         messages: [...messageHistory],
-        stream: true,
+        stream: isStream.value,
       }),
     });
 
     if (!response.ok) {
       throw new Error(`Error: ${response.status} ${response.statusText}`);
+    }
+
+    if (!isStream.value) {
+      const data = await response.json();
+      messages.value[botMessageIndex] = {
+        message: data.message.content,
+        sender: "assistant",
+      };
+      return;
     }
 
     const reader = response.body?.getReader();
@@ -62,7 +72,7 @@ async function handleSendMessage(msg: string) {
       const chunk = new TextDecoder().decode(value);
 
       try {
-        const lines = chunk.split("\n").filter((line) => line.trim() !== "");
+        const lines = chunk.split("\n");
 
         for (const line of lines) {
           const data = JSON.parse(line);

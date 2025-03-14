@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
-
 interface OllamaModel {
   name: string;
   modified_at: string;
@@ -148,7 +146,7 @@ onMounted(fetchModels);
           <!-- Dropdown menu positioned relative to its container -->
           <div
             v-if="isDropdownOpen && !isLoading"
-            class="absolute top-full right-0 mt-2 w-60 bg-zinc-800/70 border border-zinc-700 rounded-lg shadow-lg py-1 z-20 backdrop-filter backdrop-blur-md"
+            class="absolute top-full right-0 mt-2 w-60 bg-zinc-800/80 border border-zinc-700 rounded-lg shadow-lg py-1 z-20 backdrop-filter backdrop-blur-md"
           >
             <div v-if="error" class="px-4 py-2 text-red-400">{{ error }}</div>
             <div

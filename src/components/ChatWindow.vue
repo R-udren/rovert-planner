@@ -1,7 +1,4 @@
 <script lang="ts" setup>
-import { nextTick, onMounted, ref, watch } from "vue";
-import ChatMessage from "./ChatMessage.vue";
-
 interface ChatMsg {
   message: string;
   sender: "user" | "assistant";
