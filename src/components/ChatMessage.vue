@@ -1,21 +1,21 @@
 <script lang="ts" setup>
-interface Props {
+interface MessageProperties {
   message: string;
   sender: "user" | "assistant";
   thinking?: string;
 }
 
-const props = defineProps<Props>();
+const messageProps = defineProps<MessageProperties>();
 const showThinking = ref(false);
 
 const senderClass = computed(() =>
-  props.sender === "user"
+  messageProps.sender === "user"
     ? "self-end bg-zinc-800 text-white"
     : "self-start text-white"
 );
 
 const hasThinking = computed(
-  () => !!props.thinking && props.thinking.trim().length > 0
+  () => !!messageProps.thinking && messageProps.thinking.trim().length > 0
 );
 
 function toggleThinking() {
@@ -47,6 +47,12 @@ function toggleThinking() {
     </div>
 
     <!-- Regular message content -->
-    <div>{{ message }}</div>
+    <div>
+      <pre
+        class="whitespace-pre-wrap font-normal"
+        style="font-family: inherit"
+        >{{ message }}</pre
+      >
+    </div>
   </div>
 </template>
