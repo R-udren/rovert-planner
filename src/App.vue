@@ -131,6 +131,7 @@ function clearMessages() {
   <main class="min-h-screen flex flex-col text-white bg-zinc-900">
     <Header
       @model-change="(model) => (currentModel = model)"
+      @stream-toggle="(stream: boolean) => (isStream = stream)"
       @clear-messages="clearMessages"
       :current-model="currentModel"
     />

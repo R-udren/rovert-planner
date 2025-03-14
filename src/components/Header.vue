@@ -20,12 +20,14 @@ const props = defineProps<{
 const emit = defineEmits<{
   (e: "modelChange", model: string): void;
   (e: "clearMessages"): void;
+  (e: "streamToggle", streamResponse: boolean): void;
 }>();
 
 const isDropdownOpen = ref(false);
+const streamMessage = ref(false);
 const availableModels = ref<string[]>([]);
-const isLoading = ref(true);
 const error = ref<string | null>(null);
+const isLoading = ref(true);
 
 async function fetchModels() {
   try {
@@ -74,6 +76,11 @@ function clearAllMessages() {
   emit("clearMessages");
 }
 
+function handleStreamToggle() {
+  streamMessage.value = !streamMessage.value;
+  emit("streamToggle", streamMessage.value);
+}
+
 onMounted(fetchModels);
 </script>
 
@@ -89,6 +96,29 @@ onMounted(fetchModels);
       </h1>
 
       <div class="flex items-center space-x-3">
+        <!-- Stream Response Toggle Button -->
+        <button
+          @click="handleStreamToggle"
+          class="flex items-center px-3 py-2 bg-zinc-800 hover:bg-zinc-700 rounded-lg border border-zinc-700 text-white transition-colors"
+          :class="{ 'bg-blue-600 hover:bg-blue-700': streamMessage }"
+          title="Toggle stream response"
+        >
+          <span v-if="streamMessage">Streaming</span>
+          <span v-else>Instant</span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5 ml-2"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zM3 10a7 7 0 1114 0 7 7 0 01-14 0z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </button>
+
         <!-- Clear Messages Button -->
         <button
           @click="clearAllMessages"
