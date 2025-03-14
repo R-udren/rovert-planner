@@ -5,17 +5,17 @@ interface MessageProperties {
   thinking?: string;
 }
 
-const messageProps = defineProps<MessageProperties>();
+const props = defineProps<MessageProperties>();
 const showThinking = ref(false);
 
 const senderClass = computed(() =>
-  messageProps.sender === "user"
+  props.sender === "user"
     ? "self-end bg-zinc-800 text-white"
     : "self-start text-white"
 );
 
 const hasThinking = computed(
-  () => !!messageProps.thinking && messageProps.thinking.trim().length > 0
+  () => !!props.thinking && props.thinking.trim().length > 0
 );
 
 function toggleThinking() {
