@@ -105,7 +105,8 @@ async function handleSendMessage(msg: string) {
           }
         }
       } catch (e) {
-        console.error("Error parsing stream chunk:", e);
+        // Constantly spams "Unexpected end of JSON input" due to the stream not being complete yet
+        // console.error("Error parsing JSON:", e);
       }
     }
   } catch (error) {
@@ -114,8 +115,8 @@ async function handleSendMessage(msg: string) {
     messages.value[botMessageIndex] = {
       message: `Sorry, I encountered an error: ${
         error instanceof Error ? error.message : "Unknown error"
-      }. Make sure Ollama is running locally.`,
-      sender: "assistant",
+      }.\nMake sure Ollama is running locally.`,
+      sender: "system",
     };
   } finally {
     isLoading.value = false;
