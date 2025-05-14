@@ -45,8 +45,15 @@ async function fetchModels() {
     const data = await response.json();
     availableModels.value = data.models.map((model: OllamaModel) => model.name);
 
-    // If no model is currently selected, select the smallest one
-    if (!props.currentModel && availableModels.value.length > 0) {
+    // First try to get the model from localStorage
+    const savedModel = localStorage.getItem("selectedModel");
+
+    // If a model is saved and it's in the available models, use it
+    if (savedModel && availableModels.value.includes(savedModel)) {
+      emit("modelChange", savedModel);
+    }
+    // If no model is currently selected and no saved model, select the smallest one
+    else if (!props.currentModel && availableModels.value.length > 0) {
       const smallestModel = data.models.reduce(
         (prev: { size: number }, curr: { size: number }) => {
           return prev.size < curr.size ? prev : curr;
@@ -64,6 +71,7 @@ async function fetchModels() {
 }
 
 function selectModel(model: string) {
+  localStorage.setItem("selectedModel", model);
   emit("modelChange", model);
   isDropdownOpen.value = false;
 }
@@ -190,7 +198,7 @@ onMounted(fetchModels);
           <!-- Dropdown menu positioned relative to its container -->
           <div
             v-if="isDropdownOpen && !isLoading"
-            class="absolute top-full right-0 mt-2 w-60 bg-zinc-800/80 border border-zinc-700 rounded-lg shadow-lg py-1 z-20 backdrop-filter backdrop-blur-md"
+            class="absolute top-full right-0 mt-2 w-60 bg-zinc-800/90 border border-zinc-700 rounded-lg shadow-lg py-1 z-20 backdrop-filter backdrop-blur-xl"
           >
             <div v-if="error" class="px-4 py-2 text-red-400">{{ error }}</div>
             <div
