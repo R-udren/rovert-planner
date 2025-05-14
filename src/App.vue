@@ -7,7 +7,7 @@ interface ChatMsg {
 
 const messages = ref<ChatMsg[]>([]);
 const isLoading = ref(false);
-const isStream = ref(false);
+const isStream = ref(true);
 const currentModel = ref("");
 
 async function handleSendMessage(msg: string) {

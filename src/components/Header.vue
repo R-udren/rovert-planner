@@ -108,14 +108,28 @@ onMounted(fetchModels);
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="h-5 w-5 ml-2"
-            viewBox="0 0 20 20"
-            fill="currentColor"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            :class="{ 'text-blue-400': streamMessage }"
           >
-            <path
-              fill-rule="evenodd"
-              d="M10 18a8 8 0 100-16 8 8 0 000 16zM3 10a7 7 0 1114 0 7 7 0 01-14 0z"
-              clip-rule="evenodd"
-            />
+            <!-- Stream mode shows wave/flow lines -->
+            <g v-if="streamMessage">
+              <path d="M2 12h4" />
+              <path d="M9 12h4" />
+              <path d="M16 12h4" />
+              <path d="M4 6h2" />
+              <path d="M14 6h4" />
+              <path d="M8 18h2" />
+              <path d="M14 18h4" />
+            </g>
+            <!-- Instant mode shows lightning bolt -->
+            <g v-else>
+              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+            </g>
           </svg>
         </button>
 
