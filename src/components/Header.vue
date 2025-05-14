@@ -24,7 +24,7 @@ const emit = defineEmits<{
 }>();
 
 const isDropdownOpen = ref(false);
-const streamMessage = ref(false);
+const streamMessage = ref(true);
 const availableModels = ref<string[]>([]);
 const error = ref<string | null>(null);
 const isLoading = ref(true);
@@ -89,6 +89,12 @@ function handleStreamToggle() {
   emit("streamToggle", streamMessage.value);
 }
 
+function refetchModels() {
+  isLoading.value = true;
+  error.value = null;
+  fetchModels();
+}
+
 onMounted(fetchModels);
 </script>
 
@@ -144,13 +150,13 @@ onMounted(fetchModels);
         <!-- Clear Messages Button -->
         <button
           @click="clearAllMessages"
-          class="flex items-center px-3 py-2 bg-zinc-800 hover:bg-zinc-700 rounded-lg border border-zinc-700 text-white transition-colors"
+          class="flex items-center px-3 py-2 bg-zinc-800 hover:bg-zinc-700 rounded-lg border border-zinc-700 text-white transition-colors group"
           title="Clear all messages"
         >
           Reset
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="h-5 w-5 ml-2"
+            class="h-5 w-5 ml-2 transition-colors duration-150 group-hover:text-red-200 group-active:text-red-400"
             viewBox="0 0 20 20"
             fill="currentColor"
           >
@@ -162,29 +168,47 @@ onMounted(fetchModels);
           </svg>
         </button>
 
-        <!-- Model selector dropdown container with relative positioning -->
         <div class="relative">
-          <!-- Model selector dropdown button -->
           <button
-            @click="toggleDropdown"
+            @click="error ? refetchModels() : toggleDropdown()"
             class="flex items-center space-x-2 px-3 py-2 bg-zinc-800 hover:bg-zinc-700 rounded-lg border border-zinc-700 text-white transition-colors"
             :disabled="isLoading"
+            :class="{ 'border-red-500': error }"
           >
             <span v-if="isLoading" class="text-sm md:text-base"
               >Loading models...</span
             >
-            <span v-else-if="error" class="text-sm md:text-base text-red-400"
-              >Error loading models</span
+            <span
+              v-else-if="error"
+              class="text-sm md:text-base text-red-400 flex items-center"
             >
+              <span>Try again</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4 ml-2"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                />
+              </svg>
+            </span>
             <span v-else class="text-sm md:text-base">{{
               currentModel || "Select model"
             }}</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="h-4 w-4"
+              class="h-4 w-4 transition-transform"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
+              :class="{ 'rotate-90': isDropdownOpen }"
+              stroke-width="2"
             >
               <path
                 stroke-linecap="round"
@@ -211,9 +235,9 @@ onMounted(fetchModels);
               v-for="model in availableModels"
               :key="model"
               @click="selectModel(model)"
-              class="block w-full text-left px-4 py-2 hover:bg-zinc-700 text-white transition-colors"
+              class="block w-full text-left px-4 py-2 hover:bg-zinc-700 text-white transition-colors rounded-md"
               :class="{
-                'bg-blue-600 hover:bg-blue-700': model === currentModel,
+                'bg-blue-600 hover:bg-blue-800!': model === currentModel,
               }"
             >
               {{ model }}
