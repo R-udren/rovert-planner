@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 interface ChatMsg {
   message: string;
-  sender: "user" | "assistant";
+  sender: "user" | "assistant" | "system";
   thinking?: string;
 }
 

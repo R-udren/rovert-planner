@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 interface MessageProperties {
   message: string;
-  sender: "user" | "assistant";
+  sender: "user" | "assistant" | "system";
   thinking?: string;
 }
 
@@ -24,7 +24,19 @@ function toggleThinking() {
 </script>
 
 <template>
-  <div :class="['max-w-lg p-3 my-2 rounded-xl text-lg', senderClass]">
+  <div
+    :class="[
+      'max-w-lg p-3 my-2 rounded-xl text-xl',
+      senderClass,
+      { 'bg-red-800/20 border-1 border-red-500': sender === 'system' },
+    ]"
+  >
+    <!-- System message indicator -->
+    <div v-if="sender === 'system'" class="flex items-center mb-2 text-red-300">
+      <span class="mr-2">⚠️</span>
+      <span class="font-semibold">System Message</span>
+    </div>
+
     <!-- Thinking indicator (only for assistant messages with thinking content) -->
     <div v-if="hasThinking && sender === 'assistant'" class="mb-2">
       <button
@@ -32,7 +44,7 @@ function toggleThinking() {
         class="text-xs bg-zinc-600/50 hover:bg-zinc-600 py-0.5 px-2 rounded text-zinc-300 flex items-center"
       >
         <span
-          class="inline-block animate-pulse mr-1 text-blue-400"
+          class="inline-block animate-pulse mr-1 text-blue-500 text-xxl"
           v-if="!showThinking"
           >●</span
         >
