@@ -48,9 +48,26 @@ async function handleSendMessage(msg: string) {
 
     if (!isStream.value) {
       const data = await response.json();
+
+      // Parse the message content for thinking tags in non-streaming mode
+      let messageContent = data.message.content;
+      let thinkingContent = "";
+
+      // Extract thinking content from between <think> tags
+      const thinkMatch = messageContent.match(/<think>([\s\S]*?)<\/think>/);
+      if (thinkMatch) {
+        thinkingContent = thinkMatch[1];
+        // Remove the thinking tags from the message content
+        messageContent = messageContent.replace(
+          /<think>[\s\S]*?<\/think>/g,
+          ""
+        );
+      }
+
       messages.value[botMessageIndex] = {
-        message: data.message.content,
+        message: messageContent,
         sender: "assistant",
+        thinking: thinkingContent,
       };
       return;
     }

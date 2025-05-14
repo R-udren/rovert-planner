@@ -48,8 +48,8 @@ function toggleThinking() {
           v-if="!showThinking"
           >●</span
         >
-        <span v-if="!showThinking">Thinking</span>
-        <span v-else>Hide thinking</span>
+        <span v-if="!showThinking">Thoughts</span>
+        <span v-else>Hide thoughts</span>
       </button>
 
       <!-- Thinking content (collapsible) -->
@@ -59,10 +59,10 @@ function toggleThinking() {
     </div>
 
     <!-- Regular message content -->
-    <div>
+    <div class="flex-1">
       <pre
-        class="whitespace-pre-wrap font-normal"
-        style="font-family: inherit"
+        class="whitespace-pre-wrap font-normal p-0 m-0"
+        style="font-family: inherit; line-height: normal; display: inline"
         >{{ message }}</pre
       >
     </div>
