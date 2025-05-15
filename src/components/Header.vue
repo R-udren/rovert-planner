@@ -156,7 +156,7 @@ onMounted(fetchModels);
           Reset
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="h-5 w-5 ml-2 transition-colors duration-150 group-hover:text-red-200 group-active:text-red-400"
+            class="h-5 w-5 ml-2 transition-colors duration-150 group-hover:text-red-100 group-active:text-red-500"
             viewBox="0 0 20 20"
             fill="currentColor"
           >
@@ -207,7 +207,7 @@ onMounted(fetchModels);
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
-              :class="{ 'rotate-90': isDropdownOpen }"
+              :class="{ 'rotate-180': isDropdownOpen }"
               stroke-width="2"
             >
               <path
