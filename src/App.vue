@@ -1,7 +1,7 @@
 <script setup lang="ts">
 interface ChatMsg {
   message: string;
-  sender: "user" | "assistant";
+  sender: "user" | "assistant" | "system";
   thinking?: string;
 }
 
@@ -9,6 +9,8 @@ const messages = ref<ChatMsg[]>([]);
 const isLoading = ref(false);
 const isStream = ref(true);
 const currentModel = ref("");
+
+let shouldBreak = false;
 
 async function handleSendMessage(msg: string) {
   messages.value.push({ message: msg, sender: "user" });
@@ -47,6 +49,7 @@ async function handleSendMessage(msg: string) {
     }
 
     if (!isStream.value) {
+      // Cancel stream
       const data = await response.json();
 
       // Parse the message content for thinking tags in non-streaming mode
@@ -85,6 +88,10 @@ async function handleSendMessage(msg: string) {
       const { done, value } = await reader.read();
 
       if (done) break;
+      if (shouldBreak) {
+        shouldBreak = false;
+        break;
+      }
 
       const chunk = new TextDecoder().decode(value);
 
@@ -142,6 +149,12 @@ async function handleSendMessage(msg: string) {
 
 function clearMessages() {
   messages.value = [];
+  shouldBreak = true;
+}
+
+function handleCancel() {
+  isLoading.value = false;
+  shouldBreak = true;
 }
 </script>
 
@@ -153,9 +166,15 @@ function clearMessages() {
       @clear-messages="clearMessages"
       :current-model="currentModel"
     />
+
     <div class="flex-1 pt-16 pb-20">
       <ChatWindow :messages="messages" />
     </div>
-    <ChatInput @send="handleSendMessage" :disabled="isLoading" />
+
+    <ChatInput
+      @send="handleSendMessage"
+      @cancel="handleCancel"
+      :disabled="isLoading"
+    />
   </main>
 </template>
