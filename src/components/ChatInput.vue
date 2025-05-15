@@ -1,10 +1,11 @@
 <script lang="ts" setup>
-import { ref, onMounted, watch, nextTick } from "vue";
-
 const message = ref("");
 const hiddenTextRef = ref<HTMLDivElement | null>(null);
 const inputAreaRef = ref<HTMLDivElement | null>(null);
-const emit = defineEmits<{ (e: "send", msg: string): void }>();
+const emit = defineEmits<{
+  (e: "send", msg: string): void;
+  (e: "cancel"): void;
+}>();
 const props = defineProps<{ disabled?: boolean }>();
 
 function handleSubmit(e: Event) {
@@ -119,18 +120,26 @@ onMounted(() => {
         ]"
         @keydown="handleKeydown"
         @input="onInput"
-        :contenteditable="!disabled"
         role="textbox"
         aria-multiline="true"
         :data-placeholder="!message ? 'Type your message...' : ''"
       ></div>
 
       <button
+        v-if="!props.disabled"
         type="submit"
-        :disabled="disabled || !message.trim()"
+        :disabled="!message.trim()"
         class="ml-2 px-4 py-2 text-lg bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors shadow-md disabled:bg-blue-800 disabled:opacity-50"
       >
         Send
+      </button>
+      <button
+        v-else
+        type="button"
+        @click="emit('cancel')"
+        class="ml-2 px-4 py-2 text-lg bg-red-600   text-white rounded-xl hover:bg-red-700 transition-colors shadow-md"
+      >
+        Cancel
       </button>
     </form>
   </div>
